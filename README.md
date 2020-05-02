@@ -36,7 +36,7 @@ xxxxxxx/QQ.app/Frameworks/QQMainProject.framework/QQMainProject
 [  2] 0x0000000100e14000 /Library/MobileSubstrate/MobileSubstrate.dylib(0x0000000100e14000)
 [  3] 0x00000001010cc000 /private/var/containers/Bundle/Application/199B45A3-9F43-4154-9338-0F59EDAF6FF5/QQ.app/Frameworks/QQMainProject.framework/QQMainProject(0x00000001010cc000)
 ```
-还是要注意这里的主程序是QQMainProject而不是第一行的QQ，得到ASLR地址后对前面找到的两个方法下断点。然后发送一条消息，撤回试试，可以看到第二个断点成功被触发，也就是撤回消息的提示用到的方- (id)getRecallMessageContent:(struct RecallItem *)arg1
+还是要注意这里的主程序是QQMainProject而不是第一行的QQ，得到ASLR地址后对前面找到的两个方法下断点。然后发送一条消息，撤回试试，可以看到第二个断点成功被触发，也就是撤回消息的提示用到的方法为：- (id)getRecallMessageContent:(struct RecallItem *)arg1
 
 ```
 (lldb) br s -a '0x1010cc000+0x1EAC7A8'
