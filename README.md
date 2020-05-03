@@ -109,14 +109,35 @@ Target 0: (QQ) stopped.
 
 它里面调用的方法只有一个，就是 - (void)recvC2CRecallNotify:(const void *)arg1 bufferLen:(int)arg2 subcmd:(int)arg3 isOnline:(_Bool)arg4 voipNotifyInfo:(id)arg5，它也是QQMessageRecallModule类当中的方法。
 
+
+
+通过完全相同的步骤，又依次得到了讨论组和群聊的撤回方法，和上述好友间撤回只有名称的不同，并且都在QQMessageRecallModule类当中：
+```
+- (void)recvDiscussRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2 isOnline:(_Bool)arg3 voipNotifyInfo:(id)arg4;
+- (void)recvGroupRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2 isOnline:(_Bool)arg3 voipNotifyInfo:(id)arg4;
+```
+
 ## HOOK测试
 从上面的分析可以知道，sub_1ABABD8函数是第一个被调用的，其中的方法- (void)recvC2CRecallNotify:(const void *)arg1 bufferLen:(int)arg2 subcmd:(int)arg3 isOnline:(_Bool)arg4 voipNotifyInfo:(id)arg5就是第一个被调用的用于消息撤回提示的OC方法，我们可以尝试hook一下这个方法
 ```
 %hook QQMessageRecallModule
+//好友间
 - (void)recvC2CRecallNotify:(const void *)arg1 bufferLen:(int)arg2 
 	subcmd:(int)arg3 isOnline:(_Bool)arg4 voipNotifyInfo:(id)arg5
 {
-	
+
+}
+//讨论组
+- (void)recvDiscussRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2 
+	isOnline:(_Bool)arg3 voipNotifyInfo:(id)arg4
+{
+
+}
+//群聊
+- (void)recvGroupRecallNotify:(char *)arg1 bufferLen:(unsigned int)arg2
+	isOnline:(_Bool)arg3 voipNotifyInfo:(id)arg4
+{
+
 }
 %end
 ```
